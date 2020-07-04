@@ -20,12 +20,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-/**
- * Created by radu.
- */
-
 @Configuration
-@EnableJpaRepositories({"ro.ubb.catalog.core.repository"})
+@EnableJpaRepositories({"org.circuitdoctor.core.repository"})
 @EnableTransactionManagement
 @EnableCaching
 public class JPAConfig {
@@ -42,11 +38,6 @@ public class JPAConfig {
     @Value("${db.generateDDL}")
     private Boolean generateDDL;
 
-    /**
-     * http://www.baeldung.com/hikaricp
-     *
-     * @return
-     */
     @Bean
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
@@ -61,18 +52,6 @@ public class JPAConfig {
         return dataSource;
     }
 
-//    @Bean
-//    DataSource dataSource() {
-//        BasicDataSource dataSource=new BasicDataSource();
-//        dataSource.setDriverClassName(Driver.class.getName());
-//        dataSource.setUrl(jdbcUrl);
-//        dataSource.setUsername(username);
-//        dataSource.setPassword(password);
-//        dataSource.setInitialSize(2);
-//
-//        return dataSource;
-//    }
-
     @Bean
     public EntityManagerFactory entityManagerFactory() {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -82,7 +61,7 @@ public class JPAConfig {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("ro.ubb.catalog.core.model");
+        factory.setPackagesToScan("org.circuitdoctor.core.model");
         factory.setDataSource(dataSource());
         factory.afterPropertiesSet();
         return factory.getObject();
